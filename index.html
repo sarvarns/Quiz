@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sarvar Quiz — Business Meetings</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1b3a;--bg2:#12306b;--card:#ffffff14;--gold:#f5b942;--tx:#f4f7ff;--mut:#a9b8d9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:linear-gradient(160deg,var(--bg),var(--bg2));min-height:100vh}
+#app{max-width:1000px;margin:0 auto;padding:16px;text-align:center}
+h1{margin:6px 0;font-size:clamp(26px,6vw,46px)}h1 span{color:var(--gold)}
+.deco{font-size:clamp(28px,7vw,48px);letter-spacing:8px}
+.card{background:var(--card);border:1px solid #ffffff22;border-radius:18px;padding:18px;margin:12px auto;backdrop-filter:blur(6px)}
+button,input{font:inherit;border-radius:12px;border:0;padding:12px 18px}
+input{background:#fff;color:#111;width:min(100%,320px);text-align:center;font-size:20px}
+.btn{background:var(--gold);color:#1b1b1b;font-weight:700;cursor:pointer;font-size:18px}
+.btn.big{padding:16px 36px;font-size:22px}
+.mut{color:var(--mut)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.opt{border-radius:14px;padding:16px 12px;font-size:clamp(16px,3.6vw,24px);font-weight:600;color:#fff;border:3px solid transparent;position:relative;cursor:pointer;text-align:left}
+.o0{background:#e21b3c}.o1{background:#1368ce}.o2{background:#d89e00}.o3{background:#26890c}
+.dim{opacity:.35}.ok{border-color:#fff;box-shadow:0 0 0 4px #fff4}
+.cnt{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:#0006;border-radius:20px;padding:2px 12px;font-size:20px}
+.q{font-size:clamp(20px,4.6vw,34px);font-weight:700;margin:10px 0}
+.tm{display:inline-block;background:var(--gold);color:#111;font-weight:800;border-radius:50%;width:70px;height:70px;line-height:70px;font-size:30px}
+.bar{height:8px;background:#ffffff22;border-radius:8px;overflow:hidden;margin:10px 0}.bar i{display:block;height:100%;background:var(--gold)}
+.lb{display:flex;justify-content:space-between;background:#ffffff1a;border-radius:12px;padding:12px 16px;margin:6px 0;font-size:20px}
+.pl{display:inline-block;background:#ffffff1f;border-radius:20px;padding:4px 12px;margin:3px}
+#qr{display:inline-block;background:#fff;padding:12px;border-radius:14px}
+.big2{font-size:48px;font-weight:800;color:var(--gold)}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}@keyframes fl{0%{transform:translateY(-10vh) rotate(0)}100%{transform:translateY(110vh) rotate(360deg)}}@keyframes bob{50%{transform:translateY(-8px)}}@keyframes grow{from{height:0}}
+.card,.opt,.q,.lb{animation:pop .35s ease both}.deco{animation:bob 2.4s ease-in-out infinite}.opt:active{transform:scale(.97)}
+.pod{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin:16px 0}.pod div{width:30%;max-width:200px;border-radius:12px 12px 0 0;background:linear-gradient(#f5b942,#b8821b);color:#1b1b1b;font-weight:800;padding:8px 4px;animation:grow 1s ease both;display:flex;flex-direction:column;justify-content:flex-start;word-break:break-word}.pod small{font-size:14px}
+.cf{position:fixed;top:0;font-size:28px;animation:fl 4s linear infinite;pointer-events:none}
+</style></head><body><div id="app"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script>
+const QS=[
+["Who leads a business meeting?",["Customer","Cashier","Chairperson","Driver"],2],
+["What is a list of topics for a meeting called?",["Receipt","Agenda","Invoice","Resume"],1],
+["What does \"AOB\" stand for on an agenda?",["All Office Budgets","Annual Open Board","After Office Break","Any Other Business"],3],
+["What does \"to cancel a meeting\" mean?",["Not hold it","Start early","Invite more people","Change rooms"],0],
+["What are the official written notes of a meeting?",["Seconds","Hours","Minutes","Days"],2],
+["Which verb means \"to officially close a meeting\"?",["Promote","Adjourn","Recruit","Resign"],1],
+["People who join a meeting are called:",["Competitors","Tourists","Guards","Participants"],3],
+["\"To postpone a meeting\" means to hold it:",["Later","Yesterday","Never","Secretly"],0],
+["What is a \"unanimous decision\"?",["Rejected by all","Made by one boss","Agreed by everyone","Delayed for a week"],2],
+["Which app is used for online business meetings?",["Netflix","Zoom","Spotify","CapCut"],1],
+["Which meeting is held to generate new ideas?",["Brainstorming","Firing","Auditing","Bookkeeping"],0],
+["What does \"AGM\" stand for in business?",["Active Group Manager","Average Gross Margin","All Global Markets","Annual General Meeting"],3],
+["Which phrase is used to open a meeting?",["See you tomorrow","Thank you for coming","Meeting is closed","Have a nice weekend"],1],
+["What does \"Let's get down to business\" mean?",["Take a coffee break","Leave the building","Start the main work","Close the company"],2],
+["What is \"consensus\" in a business meeting?",["General agreement","Financial loss","A strict penalty","Personal conflict"],0],
+["Where do in-person meetings usually take place?",["Warehouse","Parking lot","Elevator","Conference room"],3],
+["Who writes the \"minutes\" during a meeting?",["Security guard","Note-taker / Secretary","Delivery driver","Cleaner"],1],
+["What are \"action points\" at the end of a meeting?",["Salary bonuses","Company holidays","Tasks assigned to people","Office rules"],2],
+["How do you politely ask for someone's opinion?",["What do you think?","Be quiet!","You are wrong!","Don't speak!"],0],
+["Which phrase is a polite way to disagree?",["That's stupid","Never say that","You know nothing","I see your point, but..."],3],
+["What does \"to hand over to someone\" mean?",["Fire an employee","Give them the turn to speak","Cancel their speech","Cut their salary"],1],
+["What should you do with your phone in a meeting?",["Play games","Call a friend","Put it on silent","Watch videos"],2],
+["What is a \"kick-off meeting\"?",["First meeting of a project","The final meeting","A football match","A job interview"],0],
+["What does \"to bring a meeting forward\" mean?",["Hold it next month","Cancel it forever","Make it longer","Hold it earlier than planned"],3],
+["What is a \"one-on-one\" meeting?",["Meeting of 100 people","Meeting between two people","Public conference","TV show"],1],
+["What does \"Let's wrap up\" mean in a meeting?",["Let's argue","Let's start","Let's finish","Let's eat"],2],
+["What is a \"quorum\" in a formal meeting?",["Minimum members needed to vote","Maximum time allowed","The room temperature","The annual budget"],0],
+["If you cannot attend a meeting, you should:",["Say nothing","Hide at home","Turn off your phone","Inform in advance"],3],
+["What does \"getting side-tracked\" mean?",["Finishing early","Going off-topic","Signing a contract","Making a profit"],1],
+["What does \"to reach a deadlock\" mean in a meeting?",["Everyone agrees quickly","The meeting ends early","Neither side compromises","Profits double"],2]];
+let AC=null;function beep(f,d){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;o.type="triangle";g.gain.value=.15;g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+(d||.15));o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(d||.15))}catch(e){}}
+function pod(S){const a=Object.values(S.pl).sort((x,y)=>y.s-x.s).slice(0,3),h=["170px","230px","120px"],m=["🥈","🥇","🥉"],o=[1,0,2];
+return `<div class="pod">${o.map((i,k)=>a[i]?`<div style="height:${h[k]};animation-delay:${(2-i)*.5}s"><span style="font-size:34px">${m[k]}</span>${esc(a[i].n)}<small>${a[i].s} ball</small></div>`:"").join("")}</div>`+Array.from({length:14},(_,i)=>`<span class="cf" style="left:${i*7+2}%;animation-delay:${i*.3}s">${["🎉","💼","⭐","🏆"][i%4]}</span>`).join("")}
+const SH=["▲","◆","●","■"],T=30,PASS="1234",app=document.getElementById("app");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const head=`<div class="deco">💼 📈 🤝 🏢</div><h1>Sarvar <span>Quiz</span></h1>`;
+const isPlayer=location.hash.startsWith("#play-"),HID="sq"+Math.random().toString(36).slice(2,8);
+const TO=(p,ms)=>new Promise(r=>{p.then(r);setTimeout(()=>r(null),ms)});
+function mkHost(){return new Promise(res=>{try{const p=new Peer(HID),cs=[],h={};
+const r={on:(t,f)=>{h[t]=f},emit:(t,d)=>{cs.forEach(c=>c.open&&c.send({t,d}))}};
+p.on("open",()=>res(r));p.on("error",()=>res(null));
+p.on("connection",c=>{cs.push(c);c.on("data",m=>h[m.t]&&h[m.t]({data:m.d}))})}catch(e){res(null)}})}
+function mkPlayer(hid){return new Promise(res=>{try{const p=new Peer(),h={};p.on("error",()=>res(null));
+p.on("open",()=>{const c=p.connect(hid,{reliable:true});
+c.on("open",()=>res({on:(t,f)=>{h[t]=f},emit:(t,d)=>{c.open&&c.send({t,d})}}));
+c.on("data",m=>h[m.t]&&h[m.t]({data:m.d}));c.on("error",()=>res(null))})}catch(e){res(null)}})}
+let room=null;
+function lbHTML(S,n){const a=Object.entries(S.pl).sort((x,y)=>y[1].s-x[1].s).slice(0,3);return a.map((e,i)=>`<div class="lb"><span>${["🥇","🥈","🥉"][i]} ${esc(e[1].n)}</span><b>${e[1].s}</b></div>`).join("")||`<p class="mut">—</p>`}
+
+/* ================= HOST ================= */
+function host(){
+const S={ph:"lock",qi:0,t0:0,pl:{},ans:{},rv:null};let timer=null,url=location.href.split("#")[0];
+const ids=()=>Object.keys(S.pl);
+function bc(){if(!room)return;room.emit("st",Object.assign({ph:S.ph,qi:S.qi,left:Math.max(0,T-(Date.now()-S.t0)/1000),done:Object.keys(S.ans).length,ids:ids()},S.rv||{}))}
+function lock(){app.innerHTML=head+`<div class="card"><p>Business Meetings — o'qituvchi paneli</p><input id="pw" type="password" placeholder="Parol" inputmode="numeric"><p><button class="btn" id="go">Kirish</button></p><p id="er" class="mut"></p></div>`;
+document.getElementById("go").onclick=()=>{if(document.getElementById("pw").value===PASS){S.ph="lobby";lobby()}else document.getElementById("er").textContent="Parol noto'g'ri ❌"}}
+function lobby(){S.ph="lobby";S.rv=null;app.innerHTML=head+`<div class="card"><h2>Business Meetings Activity</h2><p class="mut">Telefon kamerasi bilan skanerlang:</p><div id="qr"></div>
+<p class="mut" style="font-size:13px">Havola (QR ishlamasa, to'liq saytingiz havolasini shu yerga qo'ying):<br><input id="u" style="font-size:13px;width:90%" value="${esc(url)}"></p></div>
+<div class="card"><h3>Qatnashchilar: <span id="n">0</span></h3><div id="pls"></div><p><button class="btn big" id="st">▶ Boshlash</button></p></div>`;
+const draw=()=>{const q=document.getElementById("qr");q.innerHTML="";new QRCode(q,{text:url+"#play-"+HID,width:220,height:220})};draw();
+document.getElementById("u").onchange=e=>{url=e.target.value.split("#")[0];draw()};
+document.getElementById("st").onclick=()=>{if(ids().length)next(0)};pls();bc()}
+function pls(){const e=document.getElementById("pls");if(!e)return;e.innerHTML=ids().map(i=>`<span class="pl">${esc(S.pl[i].n)}</span>`).join("");document.getElementById("n").textContent=ids().length}
+function next(i){S.qi=i;S.ph="q";S.ans={};S.rv=null;S.t0=Date.now();const q=QS[i];beep(660,.2);
+app.innerHTML=`<p class="mut">Savol ${i+1} / ${QS.length}</p><div class="bar"><i id="bar" style="width:100%"></i></div><span class="tm" id="tm">${T}</span><div class="q">${esc(q[0])}</div>
+<div class="grid">${q[1].map((o,k)=>`<div class="opt o${k}">${SH[k]} ${esc(o)}</div>`).join("")}</div><p class="mut">Javob berdi: <b id="dn">0</b> / ${ids().length}</p>`;
+clearInterval(timer);let hb=0;timer=setInterval(()=>{const l=T-(Date.now()-S.t0)/1000;
+document.getElementById("tm").textContent=Math.max(0,Math.ceil(l));document.getElementById("bar").style.width=Math.max(0,l/T*100)+"%";
+if(++hb%4==0)bc();if(l<=0)reveal()},250);bc()}
+function reveal(){if(S.ph!=="q")return;clearInterval(timer);S.ph="rev";const q=QS[S.qi],cnt=[0,0,0,0],gain={};
+ids().forEach(i=>{const a=S.ans[i];gain[i]=0;if(a){cnt[a.o]++;gain[i]=a.pts;S.pl[i].s+=a.pts}});
+const rk=ids().sort((x,y)=>S.pl[y].s-S.pl[x].s),res={};rk.forEach((i,r)=>res[i]=[gain[i],S.pl[i].s,r+1]);
+S.rv={cnt,res,ok:q[2]};beep(880,.25);setTimeout(()=>beep(1175,.25),180);
+app.innerHTML=`<p class="mut">Savol ${S.qi+1} / ${QS.length}</p><div class="q">${esc(q[0])}</div>
+<div class="grid">${q[1].map((o,k)=>`<div class="opt o${k} ${k==q[2]?"ok":"dim"}">${SH[k]} ${esc(o)}<span class="cnt">${cnt[k]}</span></div>`).join("")}</div>
+<div class="card"><h3>🏆 Top 3</h3>${lbHTML(S)}</div><button class="btn big" id="nx">${S.qi+1<QS.length?"Keyingi ▶":"Yakun 🏁"}</button>`;
+document.getElementById("nx").onclick=()=>S.qi+1<QS.length?next(S.qi+1):end();bc()}
+function end(){S.ph="end";beep(523,.2);setTimeout(()=>beep(784,.2),200);setTimeout(()=>beep(1046,.6),400);app.innerHTML=head+`<div class="card"><h2>🎉 G'oliblar</h2>${pod(S)}</div><button class="btn big" id="rs">Qayta boshlash</button>`;
+document.getElementById("rs").onclick=()=>{S.pl={};lobby()};bc()}
+(async()=>{lock();room=await TO(mkHost(),10000);if(!room){app.insertAdjacentHTML("beforeend",`<p class="mut">⚠️ Ulanish yo'q. Sahifani yangilang.</p>`);return}
+room.on("join",m=>{const d=m.data||{};if(!d.id||!d.n)return;if(!S.pl[d.id])S.pl[d.id]={n:String(d.n).slice(0,20),s:0};pls();bc()});
+room.on("ans",m=>{const d=m.data||{};if(S.ph!=="q"||d.qi!==S.qi||!S.pl[d.id]||S.ans[d.id]||!(d.o>=0&&d.o<4))return;
+const el=(Date.now()-S.t0)/1000,ok=d.o===QS[S.qi][2];S.ans[d.id]={o:d.o,pts:ok?Math.max(10,Math.round(100-90*el/T)):0};
+const n=Object.keys(S.ans).length,e=document.getElementById("dn");if(e)e.textContent=n;if(n>=ids().length)reveal();else bc()})})()}
+
+/* ================= PLAYER ================= */
+function player(){
+const id=Math.random().toString(36).slice(2,10);let name="",st=null,mine=null,left=0,at=0,seen=false,room2=null;
+const ask=()=>{app.innerHTML=head+`<div class="card"><p>Ismingizni kiriting</p><input id="nm" maxlength="20" placeholder="Ism"><p><button class="btn big" id="ok">Kirish</button></p></div>`;
+document.getElementById("ok").onclick=()=>{name=document.getElementById("nm").value.trim();if(name){join();draw()}}};
+const join=()=>room&&room.emit("join",{id,n:name});
+function draw(){if(!name)return ask();if(!st||!seen)return app.innerHTML=head+`<div class="card"><h2>${esc(name)}, kuting... ⏳</h2><p class="mut">O'qituvchi boshlashini kuting</p></div>`;
+const q=QS[st.qi];
+if(st.ph==="lobby")return app.innerHTML=head+`<div class="card"><h2>Siz ichkaridasiz ✅</h2><p class="mut">Boshlanishini kuting</p></div>`;
+if(st.ph==="q"){if(mine&&mine.qi===st.qi)return app.innerHTML=`<div class="card"><h2>✅ Javob yuborildi</h2><p class="mut">Boshqalar javob berishini kuting…</p></div>`;
+app.innerHTML=`<p class="mut">Savol ${st.qi+1}/${QS.length} · <b id="tl"></b>s</p><div class="q">${esc(q[0])}</div><div class="grid" style="grid-template-columns:1fr">${q[1].map((o,k)=>`<button class="opt o${k}" data-k="${k}">${SH[k]} ${esc(o)}</button>`).join("")}</div>`;
+app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{mine={qi:st.qi,o:+b.dataset.k};room.emit("ans",{id,qi:st.qi,o:mine.o});draw()});tl();return}
+const r=(st.res||{})[id]||[0,0,"-"];
+if(st.ph==="rev"){const ok=mine&&mine.qi===st.qi&&mine.o===st.ok;
+return app.innerHTML=`<div class="card"><div class="deco">${ok?"✅":"❌"}</div><h2>${ok?"To'g'ri!":(mine&&mine.qi===st.qi?"Noto'g'ri":"Javob bermadingiz")}</h2><div class="big2">+${r[0]}</div>
+<p>Jami: <b>${r[1]}</b> · O'rin: <b>${r[2]}</b></p><p class="mut">To'g'ri javob: ${esc(q[1][st.ok])}</p></div>`}
+if(st.ph==="end")app.innerHTML=head+`<div class="card"><h2>🏁 Tugadi!</h2><div class="big2">${r[2]}-o'rin</div><p>Ball: <b>${r[1]}</b></p></div>`}
+function tl(){const e=document.getElementById("tl");if(e)e.textContent=Math.max(0,Math.ceil(left-(Date.now()-at)/1000))}
+setInterval(tl,300);ask();
+(async()=>{room=await TO(mkPlayer(location.hash.slice(6)),10000);if(!room){app.insertAdjacentHTML("beforeend",`<p class="mut">⚠️ Ulanib bo'lmadi. Sahifani yangilang.</p>`);return}
+room.on("st",m=>{const d=m.data;if(!d)return;const prevQ=st&&st.qi,prevP=st&&st.ph;st=d;left=d.left;at=Date.now();seen=true;
+if(!d.ids.includes(id)&&name)join();if(prevP!==d.ph||prevQ!==d.qi||!document.getElementById("tl")&&d.ph==="q")draw()})})()}
+isPlayer?player():host();
+</script></body></html>
